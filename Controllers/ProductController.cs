@@ -2,6 +2,7 @@
 using Ecommercebegin.Products.WebaAPI.DTOs;
 using Ecommercebegin.Products.WebaAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommercebegin.Products.WebaAPI.Controllers
 {
@@ -24,6 +25,15 @@ namespace Ecommercebegin.Products.WebaAPI.Controllers
         public IActionResult GetAllProducts()
         {
             List<Product> data = _context.Products.ToList();
+
+            if (data.Count == 0)
+            {
+                return NotFound(new
+                {
+                    status = "not found",
+                    data = new { }
+                });
+            }
 
             var result = data.Select(x => new
             {
@@ -200,5 +210,31 @@ namespace Ecommercebegin.Products.WebaAPI.Controllers
                 datas = _context.Products.ToList()
             });
         }
+
+        [HttpGet]
+        [Route("products/delete-all-data")]
+        public IActionResult DeleteAllData()
+        {
+            if (_context.Products.Count() == 0)
+            {
+                return NotFound(new
+                {
+                    status = "not found",
+                    message = "No data found"
+                });
+            }
+
+            _context.Products.RemoveRange(_context.Products);
+
+            _context.SaveChanges();
+
+            return Ok(new
+            {
+                status = "error",
+                message = "All data deleted"
+            });
+        }
+
+
     }
 }
