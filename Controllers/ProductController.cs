@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Ecommercebegin.Products.WebaAPI.Controllers
 {
     [ApiController]
-    [Route("api/")]
+    [Route("api/products/")]
     public class ProductController : Controller
     {
         private readonly Bogus.Randomizer _randomizer;
@@ -21,7 +21,6 @@ namespace Ecommercebegin.Products.WebaAPI.Controllers
         }
 
         [HttpGet]
-        [Route("products")]
         public IActionResult GetAllProducts()
         {
             List<Product> data = _context.Products.ToList();
@@ -46,7 +45,7 @@ namespace Ecommercebegin.Products.WebaAPI.Controllers
         }
 
         [HttpGet]
-        [Route("products/{id:int}")]
+        [Route("{id:int}")]
         public IActionResult GetProductById(int id)
         {
             Product data = _context.Products.FirstOrDefault(x => x.Id == id);
@@ -76,7 +75,6 @@ namespace Ecommercebegin.Products.WebaAPI.Controllers
         }
 
         [HttpPost]
-        [Route("products")]
         public IActionResult CreateProduct([FromBody] CreateProductDto product)
         {
 
@@ -127,7 +125,7 @@ namespace Ecommercebegin.Products.WebaAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("products/{id:int}")]
+        [Route("{id:int}")]
         public IActionResult DeleteProduct(int id)
         {
             Product data = _context.Products.FirstOrDefault(x => x.Id == id);
@@ -151,7 +149,7 @@ namespace Ecommercebegin.Products.WebaAPI.Controllers
         }
 
         [HttpPut]
-        [Route("products/{id:int}")]
+        [Route("{id:int}")]
         public IActionResult UpdateProduct(int id, [FromBody] CreateProductDto product)
         {
             Product data = _context.Products.FirstOrDefault(x => x.Id == id);
@@ -187,7 +185,7 @@ namespace Ecommercebegin.Products.WebaAPI.Controllers
         }
 
         [HttpGet]
-        [Route("products/faker-maker")]
+        [Route("faker-maker")]
         public IActionResult Faker()
         {
             for (int i = 0; i < 50; i++)
@@ -212,7 +210,7 @@ namespace Ecommercebegin.Products.WebaAPI.Controllers
         }
 
         [HttpGet]
-        [Route("products/delete-all-data")]
+        [Route("delete-all-data")]
         public IActionResult DeleteAllData()
         {
             if (_context.Products.Count() == 0)
